@@ -1,0 +1,38 @@
+{
+  "waha": {
+    "api_url": "http://10.8.140.67:3010",
+    "session": "pintu",
+    "api_key": "WahaCilegon-2026"
+  },
+  "security": {
+    "group_only": true,
+    "allowed_groups": [
+      "ISI_GROUP_ID_DISINI@g.us"
+    ],
+    "group_whitelist_enabled": false,
+    "whitelist_enabled": true,
+    "allowed_numbers": [
+      "6287814111808"
+    ],
+    "require_pin": false,
+    "pin": "1234"
+  },
+  "doors": {
+    "1": {
+      "name": "CLGDOORSERVER",
+      "ip": "192.168.141.41",
+      "port": 4370,
+      "unlock_delay": 5
+    },
+    "2": {
+      "name": "CLGDOORLT3",
+      "ip": "192.168.141.42",
+      "port": 4370,
+      "unlock_delay": 5
+    }
+  },
+  "server": {
+    "host": "0.0.0.0",
+    "port": 3114
+  }
+}

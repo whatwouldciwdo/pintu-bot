@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  zkteco-door-bot:
+    build: .
+    container_name: zkteco-door-bot
+    restart: unless-stopped
+    ports:
+      - "3114:3114"
+    volumes:
+      - ./:/app
+    environment:
+      - TZ=Asia/Jakarta
