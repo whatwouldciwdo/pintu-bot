@@ -244,7 +244,6 @@ def process_door_command(
             f"• `!status` — Cek CPU, RAM, Uptime, Hostname & firmware\n"
             f"• `!deluser <user>` — Hapus akun lokal dari FortiGate\n"
             f"  _Contoh: `!deluser budi`_\n\n"
-            f"ℹ️ _Catatan: Command `#` untuk Pintu Bot (semua anggota grup), command `!` untuk FortiGate Bot (khusus nomor admin whitelist)._"
         )
         waha.send_text(chat_id, msg, reply_to=message_id)
         return
