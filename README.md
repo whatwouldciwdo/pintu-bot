@@ -122,6 +122,7 @@ Semua perintah wajib diawali `#` agar percakapan biasa di grup tidak memicu bot.
 
 | Perintah | Deskripsi |
 | :--- | :--- |
+| **`#command`** | Menampilkan panduan lengkap semua command dari Pintu Bot (`#`) dan FortiGate Bot (`!`) |
 | **`#menu`** atau **`#help`** | Menampilkan panduan dan daftar pintu |
 | **`#buka server`** atau **`#buka pintu server`** | Membuka Pintu Server (`CLGDOORSERVER`) selama 5 detik lalu mengunci otomatis |
 | **`#buka har`** atau **`#buka pintu har`** | Membuka Pintu HAR (`CLGDOORLT3`) selama 5 detik lalu mengunci otomatis |

@@ -220,6 +220,39 @@ def process_door_command(
         )
         return
 
+    # 0b. Perintah #command (Panduan lengkap kedua bot: Pintu Bot + FortiGate Bot)
+    if lower_text in ["#command", "#commands"]:
+        pin_note = " [PIN]" if sec.get("require_pin") else ""
+        door_commands = "\n".join(
+            [f"• `#buka {k}{pin_note}` — Buka *{v.get('name')}*" for k, v in doors.items()]
+        )
+        msg = (
+            f"📋 *DAFTAR SEMUA COMMAND GRUP*\n\n"
+            f"🚪 *1. PINTU BOT (Awali dengan `#`)*\n"
+            f"{door_commands}\n"
+            f"• `#status` — Cek status koneksi semua perangkat pintu\n"
+            f"• `#menu` / `#help` — Tampilkan daftar pintu & panduan\n"
+            f"• `#groupid` — Lihat ID grup WhatsApp ini\n"
+            f"• `#command` — Tampilkan daftar semua command bot\n\n"
+            f"🛡️ *2. FORTIGATE BOT (Awali dengan `!`)*\n"
+            f"• `!menu` / `!help` — Tampilkan menu perintah FortiGate\n"
+            f"• `!status` — Cek CPU, RAM, Uptime, Hostname & firmware\n"
+            f"• `!active` — Lihat user yang sedang aktif browsing & VPN\n"
+            f"• `!users` — Lihat daftar akun lokal terdaftar\n"
+            f"• `!adduser <user> <pass> [group]` — Buat akun internet baru\n"
+            f"  _Contoh: `!adduser budi 123456 Internet-Access`_\n"
+            f"• `!deluser <user>` — Hapus akun lokal dari FortiGate\n"
+            f"  _Contoh: `!deluser budi`_\n"
+            f"• `!kick <ip/username>` — Putus sesi internet user seketika\n"
+            f"  _Contoh: `!kick 192.168.1.50` atau `!kick budi`_\n"
+            f"• `!kickvpn <username>` — Putus sesi SSL-VPN user\n"
+            f"• `!ping <host>` — Tes ping ke IP atau domain\n"
+            f"  _Contoh: `!ping 8.8.8.8`_\n\n"
+            f"ℹ️ _Catatan: Command `#` untuk Pintu Bot (semua anggota grup), command `!` untuk FortiGate Bot (khusus nomor admin whitelist)._"
+        )
+        waha.send_text(chat_id, msg, reply_to=message_id)
+        return
+
     # 1. Perintah Menu / Help (wajib awalan #)
     if lower_text in ["#menu", "#help", "#info"]:
         door_list = "\n".join([f"• `{k}` : *{v.get('name')}*" for k, v in doors.items()])
@@ -231,6 +264,7 @@ def process_door_command(
             f"Perintah Tersedia:\n"
             f"{door_commands}\n"
             f"👉 `#status` : Cek status koneksi ke semua pintu\n"
+            f"👉 `#command` : Lihat semua command (Pintu Bot & FortiGate Bot)\n"
             f"👉 `#groupid` : Lihat ID grup ini"
         )
         waha.send_text(chat_id, msg, reply_to=message_id)
