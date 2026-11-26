@@ -222,14 +222,14 @@ def process_door_command(
 
     # 1. Perintah Menu / Help (wajib awalan #)
     if lower_text in ["#menu", "#help", "#info"]:
-        door_list = "\n".join([f"• Pintu {k}: *{v.get('name')}*" for k, v in doors.items()])
-        pin_note = " (Format: `#buka [nomor_pintu] [PIN]`)" if sec.get("require_pin") else ""
+        door_list = "\n".join([f"• `{k}` : *{v.get('name')}*" for k, v in doors.items()])
+        pin_note = " [PIN]" if sec.get("require_pin") else ""
+        door_commands = "\n".join([f"👉 `#buka {k}{pin_note}` : Buka *{v.get('name')}*" for k, v in doors.items()])
         msg = (
             f"🔐 *SISTEM KONTROL PINTU WHATSAPP*\n\n"
             f"Daftar Pintu:\n{door_list}\n\n"
             f"Perintah Tersedia:\n"
-            f"👉 `#buka 1` : Buka Pintu 1{pin_note}\n"
-            f"👉 `#buka 2` : Buka Pintu 2{pin_note}\n"
+            f"{door_commands}\n"
             f"👉 `#status` : Cek status koneksi ke semua pintu\n"
             f"👉 `#groupid` : Lihat ID grup ini"
         )
@@ -251,24 +251,24 @@ def process_door_command(
         waha.send_text(chat_id, "📡 *STATUS PERANGKAT PINTU:*\n\n" + "\n".join(results), reply_to=message_id)
         return
 
-    # Jika hanya mengetik "#buka" tanpa nomor pintu
+    # Jika hanya mengetik "#buka" tanpa nama pintu
     if lower_text in ["#buka", "#bukapintu", "#open"]:
+        examples = "\n".join([f"👉 `#buka {k}`" for k in doors.keys()])
         door_list = ", ".join(doors.keys())
         waha.send_text(
             chat_id,
-            f"⚠️ Silakan tentukan nomor pintu yang ingin dibuka.\n\n"
+            f"⚠️ Silakan tentukan pintu yang ingin dibuka.\n\n"
             f"Contoh perintah:\n"
-            f"👉 `#buka 1`\n"
-            f"👉 `#buka 2`\n\n"
+            f"{examples}\n\n"
             f"Pilihan pintu yang tersedia: {door_list}",
             reply_to=message_id
         )
         return
 
-    # 3. Perintah Buka Pintu (wajib diawali # di awal pesan)
-    match = re.match(r"^(?:#buka(?:\s+pintu)?|#bukapintu|#open)\s+(\d+)(?:\s+(\S+))?$", lower_text)
+    # 3. Perintah Buka Pintu (wajib diawali # di awal pesan, misal #buka server / #buka har)
+    match = re.match(r"^(?:#buka(?:\s+pintu)?|#bukapintu|#open)\s+([a-z0-9_-]+)(?:\s+(\S+))?$", lower_text)
     if match:
-        door_id = match.group(1)
+        door_id = match.group(1).lower()
         provided_pin = match.group(2) or ""
 
         # Cek Whitelist (di grup hanya aktif jika group_whitelist_enabled = true)
@@ -297,17 +297,18 @@ def process_door_command(
                 waha.send_text(chat_id, f"⚠️ *PIN Salah!*\nFormat: `#buka {door_id} <PIN>`", reply_to=message_id)
                 return
 
-        # Cek apakah pintu valid di konfigurasi
-        if door_id not in doors:
+        # Cek apakah pintu valid di konfigurasi (case-insensitive)
+        doors_map = {str(k).lower(): v for k, v in doors.items()}
+        if door_id not in doors_map:
             available = ", ".join(doors.keys())
             waha.send_text(
                 chat_id,
-                f"⚠️ Pintu {door_id} tidak ditemukan. Pilihan pintu yang ada: {available}",
+                f"⚠️ Pintu `{door_id}` tidak ditemukan. Pilihan pintu yang ada: {available}",
                 reply_to=message_id
             )
             return
 
-        door_info = doors[door_id]
+        door_info = doors_map[door_id]
         door_name = door_info.get("name", f"Pintu {door_id}")
         ip = door_info.get("ip")
         port = door_info.get("port", 4370)

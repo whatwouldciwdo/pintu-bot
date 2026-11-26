@@ -50,13 +50,13 @@ Aplikasi jembatan untuk mengontrol dan membuka pintu akses **ZKTeco** secara oto
     "pin": "1234"
   },
   "doors": {
-    "1": {
+    "server": {
       "name": "CLGDOORSERVER",
       "ip": "192.168.141.41",
       "port": 4370,
       "unlock_delay": 5
     },
-    "2": {
+    "har": {
       "name": "CLGDOORLT3",
       "ip": "192.168.141.42",
       "port": 4370,
@@ -123,7 +123,7 @@ Semua perintah wajib diawali `#` agar percakapan biasa di grup tidak memicu bot.
 | Perintah | Deskripsi |
 | :--- | :--- |
 | **`#menu`** atau **`#help`** | Menampilkan panduan dan daftar pintu |
-| **`#buka 1`** atau **`#buka pintu 1`** | Membuka Pintu 1 (relay aktif selama 5 detik lalu mengunci otomatis) |
-| **`#buka 2`** atau **`#buka pintu 2`** | Membuka Pintu 2 (relay aktif selama 5 detik lalu mengunci otomatis) |
+| **`#buka server`** atau **`#buka pintu server`** | Membuka Pintu Server (`CLGDOORSERVER`) selama 5 detik lalu mengunci otomatis |
+| **`#buka har`** atau **`#buka pintu har`** | Membuka Pintu HAR (`CLGDOORLT3`) selama 5 detik lalu mengunci otomatis |
 | **`#status`** | Mengecek konektivitas real-time ke semua mesin ZKTeco |
 | **`#groupid`** | Menampilkan Group ID (`xxx@g.us`) dari grup saat ini |

@@ -18,13 +18,13 @@
     "pin": "1234"
   },
   "doors": {
-    "1": {
+    "server": {
       "name": "CLGDOORSERVER",
       "ip": "192.168.141.41",
       "port": 4370,
       "unlock_delay": 5
     },
-    "2": {
+    "har": {
       "name": "CLGDOORLT3",
       "ip": "192.168.141.42",
       "port": 4370,
